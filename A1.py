@@ -13,3 +13,19 @@ def load_users_data(filename):
 
         print(f"id: {user_id}, Имя: {name}, Возраст: {age}, Вес: {weight}, Уровень подготовки: {fitness_level}")
 
+def load_workouts_data(filename):
+    tree = et.parse(filename)
+    root = tree.getroot()
+
+    for workout in root.findall("workout"):
+        workout_id = workout.find("workout_id").text
+        user_id = workout.find("user_id").text
+        date = workout.find('date').text
+        type = workout.find('type').text
+        duration = workout.find('duration').text
+        distance = workout.find('distance').text
+        calories = workout.find('calories').text
+        avg_heart_rate = workout.find('avg_heart_rate').text
+        intensity = workout.find('intensity').text
+
+
