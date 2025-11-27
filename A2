@@ -1,0 +1,47 @@
+import xml.etree.ElementTree as et
+
+def load_users_data(filename):
+    tree = et.parse(filename)
+    root = tree.getroot()
+    users = []
+    for user in root.findall("user"):
+        users.append({
+            'user_id': user.find("user_id").text,
+            'name': user.find('name').text,
+            'age': int(user.find('age').text),
+            'weight': float(user.find('weight').text),
+            'fitness_level': user.find('fitness_level').text})
+    return users
+
+def load_workouts_data(filename):
+    tree = et.parse(filename)
+    root = tree.getroot()
+    workouts = []
+    for workout in root.findall("workout"):
+        workouts.append({
+            'workout_id': workout.find("workout_id").text,
+            'user_id': workout.find("user_id").text,
+            'date': workout.find('date').text,
+            'type': workout.find('type').text,
+            'duration': float(workout.find('duration').text),
+            'distance': float(workout.find('distance').text),
+            'calories': float(workout.find('calories').text),
+            'avg_heart_rate': float(workout.find('avg_heart_rate').text),
+            'intensity': workout.find('intensity').text})
+    return workouts
+
+def analyze_user_activity(users, workouts):
+    counts = {}
+    for workout in workouts:
+        user_id = workout['user_id']
+        counts[user_id] = counts.get(user_id, 0) + 1
+    sorted_items = sorted(counts.items(), key=lambda x: x[1], reverse=True)
+    top1 = sorted_items[0][0]
+    top2 = sorted_items[1][0]
+    top3 = sorted_items[2][0]
+    print(top1, top2, top3)
+
+
+users = load_users_data('users.xml')
+workouts = load_workouts_data('workouts.xml')
+analyze_user_activity(users, workouts)
