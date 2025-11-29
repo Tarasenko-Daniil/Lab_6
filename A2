@@ -97,8 +97,73 @@ def analyze_user_activity(users, workouts):
     print(f' Калорий: {int(sum_calor_top3)}')
     print(f' Время: {h3}.{m3}')
 
+def analyze_workout_types(workouts):
+    run = 0
+    duration_run = 0
+    calor_run = 0
+    for workout in workouts:
+        if "бег" == workout['type']:
+            duration_run += workout['duration']
+            calor_run += workout['calories']
+            run += 1
 
+    strength = 0
+    duration_strength = 0
+    calor_strength = 0
+    for workout in workouts:
+        if "силовая тренировка" == workout['type']:
+            duration_strength += workout['duration']
+            calor_strength += workout['calories']
+            strength += 1
+
+    bicycle = 0
+    duration_bicycle = 0
+    calor_bicycle = 0
+    for workout in workouts:
+        if "велосипед" == workout['type']:
+            duration_bicycle += workout['duration']
+            calor_bicycle += workout['calories']
+            bicycle += 1
+
+    swimming = 0
+    duration_swimming = 0
+    calor_swimming = 0
+    for workout in workouts:
+        if "плавание" == workout['type']:
+            duration_swimming += workout['duration']
+            calor_swimming += workout['calories']
+            swimming += 1
+
+    walking = 0
+    duration_walking = 0
+    calor_walking = 0
+    for workout in workouts:
+        if "ходьба" == workout['type']:
+            duration_walking += workout['duration']
+            calor_walking += workout['calories']
+            walking += 1
+
+    print("РАСПРЕДЕЛЕНИЕ ПО ТИПАМ ТРЕНИРОВОК:")
+    print(f" Бег: {run} тренировок ({run * 100 / len(workouts):.2f}%)")
+    print(f"  Средняя длительность: {duration_run / run:.0f}мин")
+    print(f"  Средние калории:: {calor_run / run:.0f}ккал")
+
+    print(f" Силовая тренировка: {strength} тренировок ({strength * 100 / len(workouts):.2f}%)")
+    print(f"  Средняя длительность: {duration_strength / strength:.0f}мин")
+    print(f"  Средние калории:: {calor_strength / strength:.0f}ккал")
+
+    print(f" Велосипед: {bicycle} тренировок ({bicycle * 100 / len(workouts):.2f}%)")
+    print(f"  Средняя длительность: {duration_bicycle / bicycle:.0f}мин")
+    print(f"  Средние калории:: {calor_bicycle / bicycle:.0f}ккал")
+
+    print(f" Плавание: {bicycle} тренировок ({swimming * 100 / len(workouts):.2f}%)")
+    print(f"  Средняя длительность: {duration_swimming / swimming:.0f}мин")
+    print(f"  Средние калории:: {calor_swimming / swimming:.0f}ккал")
+
+    print(f" Ходьба: {walking} тренировок ({walking * 100 / len(workouts):.2f}%)")
+    print(f"  Средняя длительность: {duration_walking / walking:.0f}мин")
+    print(f"  Средние калории:: {calor_walking / walking:.0f}ккал")
 
 users = load_users_data('users.xml')
 workouts = load_workouts_data('workouts.xml')
-analyze_user_activity(users, workouts)
+analyze_workout_types(workouts)
