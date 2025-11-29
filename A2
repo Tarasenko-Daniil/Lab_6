@@ -164,6 +164,16 @@ def analyze_workout_types(workouts):
     print(f"  Средняя длительность: {duration_walking / walking:.0f}мин")
     print(f"  Средние калории:: {calor_walking / walking:.0f}ккал")
 
+def find_user_workouts(users,user_name):
+    i = 1
+    for user in users:
+        if user_name == user['name']:
+            user_id = user['user_id']
+    for workout in workouts:
+        if user_id == workout['user_id']:
+            print(f'{i} тренировка - {workout["type"]}')
+            i += 1
+
 users = load_users_data('users.xml')
 workouts = load_workouts_data('workouts.xml')
 analyze_workout_types(workouts)
