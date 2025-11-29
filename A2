@@ -30,7 +30,7 @@ def load_workouts_data(filename):
             'intensity': workout.find('intensity').text})
     return workouts
 
-def analyze_user_activity(users, workouts):
+def analyze_user_activity(users, workouts): 
     counts = {}
     for workout in workouts:
         user_id = workout['user_id']
@@ -39,7 +39,64 @@ def analyze_user_activity(users, workouts):
     top1 = sorted_items[0][0]
     top2 = sorted_items[1][0]
     top3 = sorted_items[2][0]
-    print(top1, top2, top3)
+
+    for user in users:
+        if top1 == user["user_id"]:
+            name_top1 = user["name"]
+            fitness_top1 = user["fitness_level"]
+        if top2 == user["user_id"]:
+            name_top2 = user["name"]
+            fitness_top2 = user["fitness_level"]
+        if top3 == user["user_id"]:
+            name_top3 = user["name"]
+            fitness_top3 = user["fitness_level"]
+
+        sum_calor_top1 = 0
+        for workout in workouts:
+            if top1 == workout["user_id"]:
+                sum_calor_top1 += workout['calories']
+        sum_calor_top2 = 0
+        for workout in workouts:
+            if top2 == workout["user_id"]:
+                sum_calor_top2 += workout['calories']
+        sum_calor_top3 = 0
+        for workout in workouts:
+            if top3 == workout["user_id"]:
+                sum_calor_top3 += workout['calories']
+
+        sum_duration_top1 = 0
+        for workout in workouts:
+            if top1 == workout["user_id"]:
+                sum_duration_top1 += workout['duration']
+            h1 = int(sum_duration_top1 // 60)
+            m1 = int(sum_duration_top1 % 60)
+        sum_duration_top2 = 0
+        for workout in workouts:
+            if top2 == workout["user_id"]:
+                sum_duration_top2 += workout['duration']
+            h2 = int(sum_duration_top2 // 60)
+            m2 = int(sum_duration_top2 % 60)
+        sum_duration_top3 = 0
+        for workout in workouts:
+            if top3 == workout["user_id"]:
+                sum_duration_top3 += workout['duration']
+            h3 = int(sum_duration_top3 // 60)
+            m3 = int(sum_duration_top3 % 60) # не сходится время
+
+    print("ТОП-3 АКТИВНЫХ ПОЛЬЗОВАТЕЛЕЙ: ")
+    print(f"1.{name_top1}({fitness_top1})")
+    print(f' Тренировок: {sorted_items[0][-1]}')
+    print(f' Калорий: {int(sum_calor_top1)}')
+    print(f' Время: {h1}.{m1}')
+    print(f"2.{name_top2}({fitness_top2})")
+    print(f' Тренировок: {sorted_items[1][-1]}')
+    print(f' Калорий: {int(sum_calor_top2)}')
+    print(f' Время: {h2}.{m2}')
+    print(f"3.{name_top3}({fitness_top3})")
+    print(f' Тренировок: {sorted_items[2][-1]}')
+    print(f' Калорий: {int(sum_calor_top3)}')
+    print(f' Время: {h3}.{m3}')
+
 
 
 users = load_users_data('users.xml')
