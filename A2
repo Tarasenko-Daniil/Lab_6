@@ -262,6 +262,7 @@ def circle(workouts):
     labels = ['Бег', 'Силовая тренировка', 'Велосипед', 'Плавание', 'Ходьба']
     plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
     plt.axis('equal')
+    plt.title("Распределение типов тренировок")
     plt.show()
 
 users = load_users_data('users.xml')
