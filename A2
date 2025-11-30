@@ -174,6 +174,44 @@ def find_user_workouts(users,user_name):
             print(f'{i} тренировка - {workout["type"]}')
             i += 1
 
+def analyze_user(user_name, workouts):
+    for user in users:
+        if user_name == user["name"]:
+            user_id = user['user_id']
+            user_age = user['age']
+            user_weight = user["weight"]
+            user_fitness_level = user["fitness_level"]
+    user_training = 0
+    user_calor = 0
+    user_duration = 0
+    user_distance = 0
+    love = []
+    for workout in workouts:
+        if user_id == workout["user_id"]:
+            user_training += 1
+            user_calor += workout["calories"]
+            user_duration += workout["duration"]
+            user_distance += workout["distance"]
+            love.append(workout["type"])
+    h = int(user_duration // 60)
+    m = int(user_duration % 60)
+    counts = {}
+    for i in love:
+        counts[i] = counts.get(i, 0) + 1
+
+    most_common_type = max(counts)
+
+    print(f"ДЕТАЛЬНЫЙ АНАЛИЗ ДЛЯ ПОЛЬЗОВАТЕЛЯ: {user_name}")
+    print("=" * 40)
+    print(f"Возраст: {user_age} лет,Вес: {int(user_weight)} кг")
+    print(f"Уровень: {user_fitness_level}")
+    print(f"Тренировок: {user_training}")
+    print(f"Сожжено калорий: {int(user_calor)}")
+    print(f"Общее время: {h}.{m}часов")
+    print(f"Пройдено дистанции: {user_distance}км")
+    print(f'Средние калории за тренировку: {int(user_calor / user_training)}')
+    print(f"Любимый тип тренировки: {most_common_type}")
+
 users = load_users_data('users.xml')
 workouts = load_workouts_data('workouts.xml')
 analyze_workout_types(workouts)
