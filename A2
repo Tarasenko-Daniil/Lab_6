@@ -222,6 +222,48 @@ def analyze_user(user_name, workouts):
     print(f'Средние калории за тренировку: {int(user_calor / user_training)}')
     print(f"Любимый тип тренировки: {most_common_type}")
 
+def circle(workouts):
+    sizes = []
+    run = 0
+    for workout in workouts:
+        if "бег" == workout['type']:
+            run += 1
+    run_percent = run * 100 / len(workouts)
+    sizes.append(run_percent)
+
+    strength = 0
+    for workout in workouts:
+        if "силовая тренировка" == workout['type']:
+            strength += 1
+    strength_percent = strength * 100 / len(workouts)
+    sizes.append(strength_percent)
+
+    bicycle = 0
+    for workout in workouts:
+        if "велосипед" == workout['type']:
+            bicycle += 1
+    bicycle_percent = bicycle * 100 / len(workouts)
+    sizes.append(bicycle_percent)
+
+    swimming = 0
+    for workout in workouts:
+        if "плавание" == workout['type']:
+            swimming += 1
+    swimming_percent = swimming * 100 / len(workouts)
+    sizes.append(swimming_percent)
+
+    walking = 0
+    for workout in workouts:
+        if "ходьба" == workout['type']:
+            walking += 1
+    walking_percent = walking * 100 / len(workouts)
+    sizes.append(walking_percent)
+
+    labels = ['Бег', 'Силовая тренировка', 'Велосипед', 'Плавание', 'Ходьба']
+    plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+    plt.axis('equal')
+    plt.show()
+
 users = load_users_data('users.xml')
 workouts = load_workouts_data('workouts.xml')
 analyze_workout_types(workouts)
