@@ -352,6 +352,44 @@ def post_efficiency(workouts):
     plt.title("Эффективность тренировки(колории/минуту)")
     plt.show()
 
+def post_calor(workouts):
+    name_users = []
+    user_fitness_level = []
+    calories = []
+    for user in users:
+        name = user["name"]
+        user_id = user["user_id"]
+        fitness_level = user["fitness_level"]
+        user_calories = 0
+        for workout in workouts:
+            if user_id == workout["user_id"]:
+                user_calories += workout["calories"]
+        user_fitness_level.append(fitness_level)
+        name_users.append(name)
+        calories.append(user_calories)
+
+    sorted_pairs = sorted(zip(calories, name_users, user_fitness_level), reverse=True)
+    calories_sorted, names_sorted, fitness_sorted = zip(*sorted_pairs)
+
+    color_map = {"продвинутый": "red", "средний": "orange", "начальный": "green"}
+    colors = [color_map.get(level, "black") for level in fitness_sorted]
+    bars = plt.bar(names_sorted, calories_sorted, color=colors)
+
+    bars = plt.bar(names_sorted, calories_sorted, color=colors)
+    for bar in bars:
+        val = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2, val, int(val), ha='center', va='bottom')
+
+    plt.xlabel('Пользователи')
+    plt.ylabel('Общие калории')
+    plt.title("Сравнение пользователей по общим затраченным калориям")
+
+    from matplotlib.patches import Patch
+    legend_elements = [Patch(facecolor=color, label=level) for level, color in color_map.items()]
+    plt.legend(handles=legend_elements)
+
+    plt.show()
+
 users = load_users_data('users.xml')
 workouts = load_workouts_data('workouts.xml')
 analyze_workout_types(workouts)
