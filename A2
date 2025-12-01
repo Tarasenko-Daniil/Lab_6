@@ -265,6 +265,28 @@ def circle(workouts):
     plt.title("Распределение типов тренировок")
     plt.show()
 
+def post_activities(users, workouts):
+    name_users = []
+    training_users = []
+    for user in users:
+        name = user["name"]
+        user_id = user["user_id"]
+        training = 0
+        for workout in workouts:
+            if user_id == workout["user_id"]:
+                training += 1
+        name_users.append(name)
+        training_users.append(training)
+
+    sorted_pairs = sorted(zip(training_users, name_users), reverse=True)
+    training_sorted, names_sorted = zip(*sorted_pairs)
+
+    plt.bar(names_sorted, training_sorted)
+    plt.xlabel('Пользователи')
+    plt.ylabel('Количество тренировок')
+    plt.title("Активности пользователей (количество тренировок)")
+    plt.show()
+
 users = load_users_data('users.xml')
 workouts = load_workouts_data('workouts.xml')
 analyze_workout_types(workouts)
