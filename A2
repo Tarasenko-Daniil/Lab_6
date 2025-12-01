@@ -287,6 +287,71 @@ def post_activities(users, workouts):
     plt.title("Активности пользователей (количество тренировок)")
     plt.show()
 
+def post_efficiency(workouts):
+    categories = []
+    values = []
+    duration_run = 0
+    calor_run = 0
+    for workout in workouts:
+        if "бег" == workout['type']:
+            duration_run += workout['duration']
+            calor_run += workout['calories']
+    calor_min =  calor_run / duration_run
+    categories.append("бег")
+    values.append(calor_min)
+
+    duration_strength  = 0
+    calor_strength  = 0
+    for workout in workouts:
+        if "силовая тренировка" == workout['type']:
+            duration_strength  += workout['duration']
+            calor_strength  += workout['calories']
+    calor_min = calor_strength  / duration_strength
+    categories.append("силовая тренировка")
+    values.append(calor_min)
+
+    duration_bicycle = 0
+    calor_bicycle = 0
+    for workout in workouts:
+        if "велосипед" == workout['type']:
+            duration_bicycle  += workout['duration']
+            calor_bicycle += workout['calories']
+    calor_min = calor_bicycle / duration_bicycle
+    categories.append("велосипед")
+    values.append(calor_min)
+
+    duration_swimming = 0
+    calor_swimming  = 0
+    for workout in workouts:
+        if "плавание" == workout['type']:
+            duration_swimming  += workout['duration']
+            calor_swimming  += workout['calories']
+    calor_min = calor_swimming  / duration_swimming
+    categories.append("плавание")
+    values.append(calor_min)
+
+    duration_walking = 0
+    calor_walking = 0
+    for workout in workouts:
+        if "ходьба" == workout['type']:
+            duration_walking += workout['duration']
+            calor_walking += workout['calories']
+    calor_min = calor_walking / duration_walking
+    categories.append("ходьба")
+    values.append(calor_min)
+
+    sorted_pairs = sorted(zip(values, categories), reverse=True)
+    values, categories = zip(*sorted_pairs)
+
+    bars = plt.bar(categories, values, color = 'purple')
+    for bar in bars:
+        val = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2,val, round(val, 2), ha='center', va='bottom')
+    plt.xlabel('Тип тренировка')
+    plt.ylabel('Калории в минуту')
+    plt.title("Эффективность тренировки(колории/минуту)")
+    plt.show()
+
 users = load_users_data('users.xml')
 workouts = load_workouts_data('workouts.xml')
 analyze_workout_types(workouts)
